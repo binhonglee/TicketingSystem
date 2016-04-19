@@ -6,6 +6,7 @@
 #include <iostream>
 #include <string>
 #include <fstream>
+#include "Person.cpp"
 using namespace std;
 
 int getUsernameCounter(string, int);
@@ -20,6 +21,7 @@ void chgPhoneNo();
 void quit();
 
 const int size = 10000;
+Person person[size];
 string username[size];
 string password[size];
 string email[size];

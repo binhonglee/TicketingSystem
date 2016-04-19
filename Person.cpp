@@ -2,6 +2,14 @@
 #include "Person.h"
 using namespace std;
 
+Person::Person()
+{
+  name = "unknown";
+  password = "";
+  email = "unknown";
+  phoneNo = "555-5555";
+}
+
 Person::Person(string name, string password, string email, string phoneNo)
 {
   this->name = name;

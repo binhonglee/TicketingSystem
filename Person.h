@@ -11,6 +11,7 @@ class Person
   string phoneNo;
 
   public :
+  Person();
   Person(string, string, string, string);
   void setName(string);
   string getName();
