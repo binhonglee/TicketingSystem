@@ -1,7 +1,13 @@
+/*
+ *	Written by   : BinHong Lee
+ *	Last edited  : 4/22/2016
+ */
+
 #include <string>
 #include "Person.h"
 using namespace std;
 
+//Empty constructor
 Person::Person()
 {
   name = "unknown";
@@ -10,6 +16,7 @@ Person::Person()
   phoneNo = "555-5555";
 }
 
+//Complete comstructor
 Person::Person(string name, string password, string email, string phoneNo)
 {
   this->name = name;
@@ -18,6 +25,7 @@ Person::Person(string name, string password, string email, string phoneNo)
   this->phoneNo = phoneNo;
 }
 
+//Getters and setters
 void Person::setName(string name)
 {
   this->name = name;
@@ -43,12 +51,13 @@ void Person::setPhoneNo(string phoneNo)
   this->phoneNo = phoneNo;
 }
 
-bool Person::checkPassword(string password)
-{
-  return (this->password == password);
-}
-
 void Person::setPassword(string password)
 {
   this->password = password;
+}
+
+//"password" do not have getter but only a checker instead
+bool Person::checkPassword(string password)
+{
+  return (this->password == password);
 }
