@@ -1,6 +1,6 @@
 /*
  *	Written by   : BinHong Lee
- *	Last edited  : 4/22/2016
+ *	Last edited  : 5/11/2016
  */
 
 #include <string>

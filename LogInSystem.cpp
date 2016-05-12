@@ -1,6 +1,6 @@
 /*
  *	Written by   : BinHong Lee
- *	Last edited  : 4/12/2016
+ *	Last edited  : 5/12/2016
  */
 
 #include <iostream>
@@ -10,8 +10,10 @@
 #include "Person.cpp"
 using namespace std;
 
-int getUsernameCounter(string, int);
+//Declaration of functions
+void getUser(string);
 void login();
+void adminLogin();
 void loggedIn();
 void registration();
 void editCredentials();
@@ -22,14 +24,16 @@ void chgEmail();
 void chgPhoneNo();
 void quit();
 
+//Stacks to store the data
 stack<Person> users;
+
+//Declaration of place holding variables
 Person currentUser;
 string username;
 string password;
+string password2;
 string email;
 string phoneNo;
-int counter;
-int x = 0;
 int wrongPass = 0;
 
 int main()
@@ -99,7 +103,6 @@ void login()
 	}
 
 	try {
-		string usrnme, pswd;
 		cout << "Username:";
 		cin >> username;
 
@@ -126,8 +129,6 @@ void login()
 
 void registration()
 {
-	string pswd = "2";
-	string pswd2 = "3";
 	bool available = true;
 
 	do
@@ -157,16 +158,14 @@ void registration()
 	do
 	{
 		cout << "Password : ";
-		cin >> pswd;
+		cin >> password;
 
 		cout << "Confirm password :";
-		cin >> pswd2;
+		cin >> password2;
 
-		if (pswd != pswd2)
+		if (password != password2)
 			cout << "Password unmatched. Please try again.";
-	} while (pswd != pswd2);
-
-	password = pswd;
+	} while (password != password2);
 
 	cout << "Email : ";
 	cin >> email;
@@ -247,6 +246,7 @@ void update(Person newUser)
 	{
 		if (users.top().getName() == currentUser.getName())
 		{
+			cout << "replaced" << endl;
 			newUsers.push(newUser);
 		}
 		else
@@ -258,26 +258,29 @@ void update(Person newUser)
 	}
 
 	users = newUsers;
+	currentUser = newUser;
 }
 
 void chgUsername()
 {
-	bool available = true;
-
+	bool available;
 	Person newUsers;
 
 	do
 	{
+		available = true;
+		cout << available << endl;
 		cout << "Username : ";
 		cin >> username;
 
 		stack<Person> temp = users;
 
-		for (int i = 0; i < x; i++)
+		while (!temp.empty())
 		{
 			if (temp.top().getName() == username)
 			{
 				cout << "Username unavailable. Please try again." << endl;
+				cout << temp.top().getName() << " " << temp.top().getPhoneNo() << endl;
 				available = false;
 				break;
 			}
@@ -300,14 +303,12 @@ void chgPassword()
 
 	while (!currentUser.checkPassword(password))
 	{
-		cout << "Wrong password. Please try again.";
+		cout << "Wrong password. Please try again." << endl;
 		wrongPass++;
 
 		cout << "Please input the current password : ";
 		cin >> password;
 	}
-
-	string password2;
 
 	do {
 		cout << "Please input the new password : ";
@@ -343,9 +344,10 @@ void quit()
 {
 	ofstream fout("database.txt");
 
-	for (int i = 0; i <= x; i++)
+	while (!users.empty())
 	{
-		fout << username[i] << " " << password[i] << " " << email[i] << " " << phoneNo[i] << " " << endl;
+		fout << users.top().getName() << " " << users.top().getPassword() << " " << users.top().getEmail() << " " << users.top().getPhoneNo() << " " << endl;
+		users.pop();
 	}
 
 	exit (EXIT_SUCCESS);
