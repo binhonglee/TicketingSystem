@@ -51,9 +51,19 @@ void Person::setPhoneNo(string phoneNo)
   this->phoneNo = phoneNo;
 }
 
+string Person::getPhoneNo()
+{
+  return phoneNo;
+}
+
 void Person::setPassword(string password)
 {
   this->password = password;
+}
+
+string Person::getPassword()
+{
+  return password;
 }
 
 //"password" do not have getter but only a checker instead

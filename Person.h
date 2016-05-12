@@ -20,5 +20,6 @@ class Person
   void setPhoneNo(string);
   string getPhoneNo();
   void setPassword(string);
+  string getPassword();
   bool checkPassword(string);
 };

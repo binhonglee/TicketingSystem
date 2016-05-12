@@ -1,10 +1,11 @@
 /*
- *	Written by   : Lee Bin Hong
+ *	Written by   : BinHong Lee
  *	Last edited  : 4/12/2016
  */
 
 #include <iostream>
 #include <string>
+#include <stack>
 #include <fstream>
 #include "Person.cpp"
 using namespace std;
@@ -14,18 +15,19 @@ void login();
 void loggedIn();
 void registration();
 void editCredentials();
+void update(Person);
 void chgUsername();
 void chgPassword();
 void chgEmail();
 void chgPhoneNo();
 void quit();
 
-const int size = 10000;
-Person person[size];
-string username[size];
-string password[size];
-string email[size];
-string phoneNo[size];
+stack<Person> users;
+Person currentUser;
+string username;
+string password;
+string email;
+string phoneNo;
 int counter;
 int x = 0;
 int wrongPass = 0;
@@ -37,9 +39,12 @@ int main()
 
 	while (!fin.eof())
 	{
-		fin >> username[x] >> password[x] >> email[x] >> phoneNo[x];
-		x++;
+		fin >> username >> password >> email >> phoneNo;
+		Person temp(username, password, email, phoneNo);
+		users.push(temp);
 	}
+
+	users.pop();
 
 	cout << "Please choose one of the following options :" << endl;
 	cout << "Log In       - 1" << endl;
@@ -61,40 +66,55 @@ int main()
 
 	ofstream fout("database.txt");
 
-	for (int i = 0; i <= x; i++)
+	while (!users.empty())
 	{
-		fout << username[i] << " " << password[i] << " " << email[i] << " " << phoneNo[i] << " " << endl;
+		fout << users.top().getName() << " " << users.top().getPassword() << " " << users.top().getEmail() << " " << users.top().getPhoneNo() << " " << endl;
+		users.pop();
 	}
+
   return 0;
 }
 
-int getUsernameCounter(string query, int size)
+void getUser(string query)
 {
-	for (int i = 0; i < size; i++)
+	stack<Person> temp = users;
+	while (!temp.empty())
 	{
-		if (query == username[i]) return i;
+		Person x = users.top();
+		if (x.getName() == query) currentUser = x;
+		users.pop();
+		cout << "User found";
 	}
-	return -1;
+
+	throw std::invalid_argument("");
 }
 
 void login()
 {
+
 	if (wrongPass >= 3)
 	{
 		cout << "Too much failed login attempt. The program will now be terminated." << endl;
 		quit();
 	}
 
-	string usrnme, pswd;
-	cout << "Username:";
-	cin >> usrnme;
+	try {
+		string usrnme, pswd;
+		cout << "Username:";
+		cin >> username;
 
-	counter = getUsernameCounter(usrnme, x);
+		cout << "Password:";
+		cin >> password;
 
-	cout << "Password:";
-	cin >> pswd;
+		getUser(username);
 
-	if (pswd != password[counter])
+	} catch (invalid_argument inae) {
+		cout << "Invalid username or password. Please try again.";
+		wrongPass++;
+		login();
+	}
+
+	if (!currentUser.checkPassword(password))
 	{
 		cout << "Invalid username or password. Please try again.";
 		wrongPass++;
@@ -106,32 +126,35 @@ void login()
 
 void registration()
 {
-	string usrnme;
 	string pswd = "2";
 	string pswd2 = "3";
-	bool available = false;
+	bool available = true;
 
-	while (available == false)
+	do
 	{
-		available = true;
-
 		cout << "Username : ";
-		cin >> usrnme;
+		cin >> username;
 
-		for (int i = 0; i < x; i++)
+		stack<Person> temp = users;
+
+		while(!temp.empty())
 		{
-			if (username[i] == usrnme)
+			Person currentPerson = temp.top();
+
+			if (currentUser.getName() == username)
 			{
 				cout << "Username unavailable. Please try again." << endl;
 				available = false;
+				break;
 			}
+
+			temp.pop();
 		}
-	}
+	} while (available == false);
 
 	cout << "Username is available." << endl;
-	username[x] = usrnme;
 
-	while (pswd != pswd2)
+	do
 	{
 		cout << "Password : ";
 		cin >> pswd;
@@ -141,22 +164,22 @@ void registration()
 
 		if (pswd != pswd2)
 			cout << "Password unmatched. Please try again.";
-	}
+	} while (pswd != pswd2);
 
-	password[x] = pswd;
+	password = pswd;
 
 	cout << "Email : ";
-	cin >> email[x];
+	cin >> email;
 
 	cout << "Phone No. : ";
-	cin >> phoneNo[x];
+	cin >> phoneNo;
+
+	Person newUser(username, password, email, phoneNo);
+	users.push(newUser);
 
 	cout << "Account is successfully registered." << endl;
 
-	counter = x;
-
-	x++;
-
+	currentUser = newUser;
 	loggedIn();
 }
 
@@ -173,7 +196,7 @@ void loggedIn()
 	switch (choice)
 	{
 	case 1:
-		cout << "Username : " << username[counter] << "\nEmail : " << email[counter] << "\nPhone No. : " << phoneNo[counter] << endl;
+		cout << "Username : " << currentUser.getName() << "\nEmail : " << currentUser.getEmail() << "\nPhone No. : " << currentUser.getPhoneNo() << endl;
 		loggedIn();
 		break;
 	case 2:
@@ -216,62 +239,104 @@ void editCredentials()
 	}
 }
 
+void update(Person newUser)
+{
+	stack<Person> newUsers;
+
+	while (!users.empty())
+	{
+		if (users.top().getName() == currentUser.getName())
+		{
+			newUsers.push(newUser);
+		}
+		else
+		{
+			newUsers.push(users.top());
+		}
+
+		users.pop();
+	}
+
+	users = newUsers;
+}
+
 void chgUsername()
 {
-	bool available = false;
-	string usrnme;
+	bool available = true;
 
-	while (available == false)
+	Person newUsers;
+
+	do
 	{
-		available = true;
-
 		cout << "Username : ";
-		cin >> usrnme;
+		cin >> username;
+
+		stack<Person> temp = users;
 
 		for (int i = 0; i < x; i++)
 		{
-			if (username[i] == usrnme)
+			if (temp.top().getName() == username)
 			{
 				cout << "Username unavailable. Please try again." << endl;
 				available = false;
+				break;
 			}
+
+			temp.pop();
 		}
-	}
+	}	while (available == false);
 
-	username[counter] = usrnme;
+	cout << "Username is available." << endl;
+	Person newPerson(username, currentUser.getPassword(), currentUser.getEmail(), currentUser.getPhoneNo());
+	update(newPerson);
 
-	loggedIn();
+	cout << "Username is updated." << endl;
 }
 
 void chgPassword()
 {
-	string pass;
-
 	cout << "Please input the current password : ";
-	cin >> pass;
+	cin >> password;
 
-	if (pass != password[counter])
+	while (!currentUser.checkPassword(password))
 	{
 		cout << "Wrong password. Please try again.";
 		wrongPass++;
-		chgPassword();
+
+		cout << "Please input the current password : ";
+		cin >> password;
 	}
+
+	string password2;
+
+	do {
+		cout << "Please input the new password : ";
+		cin >> password;
+
+		cout << "Please confirm your new password : ";
+		cin >> password2;
+	} while(password2 != password);
+
+	currentUser.setPassword(password);
+	update(currentUser);
 }
 
 void chgEmail()
 {
 	cout << "Please input the new email : ";
-	cin >> email[counter];
+	cin >> email;
 
-	loggedIn();
+	currentUser.setEmail(email);
+	update(currentUser);
 }
 
 void chgPhoneNo()
 {
 	cout << "Please input the new phone no. : ";
-	cin >> phoneNo[counter];
+	cin >> phoneNo;
 
-	loggedIn();
+	currentUser.setPhoneNo(phoneNo);
+	update(currentUser);
 }
 
 void quit()
