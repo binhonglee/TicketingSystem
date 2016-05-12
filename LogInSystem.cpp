@@ -24,7 +24,7 @@ void chgEmail();
 void chgPhoneNo();
 void quit();
 
-//Stacks to store the data
+//Stacks to store the users' personal data
 stack<Person> users;
 
 //Declaration of place holding variables
@@ -38,24 +38,33 @@ int wrongPass = 0;
 
 int main()
 {
+	//Reading from file to build the database
 	ifstream fin("database.txt");
-	int choice;
-
 	while (!fin.eof())
 	{
+		//Reading in line-by-line into the placeholding variables
 		fin >> username >> password >> email >> phoneNo;
+
+		//Create the Person and push it into the stack
 		Person temp(username, password, email, phoneNo);
 		users.push(temp);
 	}
 
+	//Pop off the additional data added into the stack due to the empty line
 	users.pop();
 
+	getOption:
+	//Display user input options
 	cout << "Please choose one of the following options :" << endl;
 	cout << "Log In       - 1" << endl;
 	cout << "Registration - 2" << endl;
 	cout << "Exit         - 0" << endl;
 
+	//Get user input
+	int choice;
 	cin >> choice;
+
+	//Switch according to user input
 	switch (choice)
 	{
 	case 1:
@@ -66,16 +75,25 @@ int main()
 		break;
 	case 0:
 		break;
+	default:
+		//Display error message
+		cout << "Invalid input. Please try again." << endl;
+		goto getOption;
 	}
 
+	//Saving data into file
 	ofstream fout("database.txt");
 
+	//Check if the stack is empty
 	while (!users.empty())
 	{
+		//Move the data into the files each Person per line
 		fout << users.top().getName() << " " << users.top().getPassword() << " " << users.top().getEmail() << " " << users.top().getPhoneNo() << " " << endl;
+		//Pop the Person out of stack after the data is moved
 		users.pop();
 	}
 
+	//End the program
   return 0;
 }
 
