@@ -97,105 +97,136 @@ int main()
   return 0;
 }
 
-void getUser(string query)
+void getUser()
 {
+	//Duplicate the current stack to be checked through
 	stack<Person> temp = users;
+
+	//Loop while the temporary stack is not empty
 	while (!temp.empty())
 	{
-		Person x = users.top();
-		if (x.getName() == query) currentUser = x;
+		//Check if the username match the query
+		//If so, set it as the currentUser
+		if (users.top().getName() == username) currentUser = users.top();
+
+		//Pop the checked user
 		users.pop();
-		cout << "User found";
 	}
 
+	//Throw invalid_argument error to be caught if the person is not found
 	throw std::invalid_argument("");
 }
 
 void login()
 {
-
+	//If the user already has 3 fail attempt to login
 	if (wrongPass >= 3)
 	{
+		//Print error message and exit
 		cout << "Too much failed login attempt. The program will now be terminated." << endl;
 		quit();
 	}
 
 	try {
+		//Ask for username
 		cout << "Username:";
 		cin >> username;
 
+		//Ask for password
 		cout << "Password:";
 		cin >> password;
 
-		getUser(username);
+		//Get the user
+		getUser();
 
 	} catch (invalid_argument inae) {
+		//Print error message
 		cout << "Invalid username or password. Please try again.";
+		//Increase wrongPass count that indicate the amount of times of invalid
+		//credentials input by the user
 		wrongPass++;
 		login();
 	}
 
+	//Check if the password is correct
 	if (!currentUser.checkPassword(password))
 	{
+		//Print error message
 		cout << "Invalid username or password. Please try again.";
+		//Increase wrongPass count that indicate the amount of times of invalid
+		//credentials input by the user
 		wrongPass++;
 		login();
 	}
 
+	//User is successfully logged in
 	loggedIn();
 }
 
 void registration()
 {
-	bool available = true;
+	//Initialize boolean
+	bool available;
 
 	do
 	{
-		cout << "Username : ";
-		cin >> username;
-
-		stack<Person> temp = users;
-
-		while(!temp.empty())
+		try
 		{
-			Person currentPerson = temp.top();
+			//Get username
+			cout << "Username: ";
+			cin >> username;
 
-			if (currentUser.getName() == username)
-			{
-				cout << "Username unavailable. Please try again." << endl;
-				available = false;
-				break;
-			}
+			//Check if username is already in use
+			//If not, it will throw an invalid_argument error to be caught
+			getUser();
 
-			temp.pop();
+			//Print error message
+			cout << "Username unavailable. Please try again." << endl;
+			//Set available as false and continue the loop
+			available = false;
+		//Catch the invalid_argument error thrown by getUser()
+		} catch (invalid_argument inae)
+		{
+			//Set available to true and quit the loop
+			available = true;
 		}
 	} while (available == false);
 
+	//Print success message
 	cout << "Username is available." << endl;
 
 	do
 	{
+		//Get password
 		cout << "Password : ";
 		cin >> password;
 
+		//Confirm password
 		cout << "Confirm password :";
 		cin >> password2;
 
+		//Print error message if both password is not the same
 		if (password != password2)
 			cout << "Password unmatched. Please try again.";
+	//Loop until both password input is the same
 	} while (password != password2);
 
+	//Get email
 	cout << "Email : ";
 	cin >> email;
 
+	//Get phone number
 	cout << "Phone No. : ";
 	cin >> phoneNo;
 
+	//Create and push the new 'Person' into stack
 	Person newUser(username, password, email, phoneNo);
 	users.push(newUser);
 
+	//Print success message
 	cout << "Account is successfully registered." << endl;
 
+	//Automatically login user
 	currentUser = newUser;
 	loggedIn();
 }
@@ -222,8 +253,11 @@ void loggedIn()
 		break;
 	case 0:
 		quit();
+	default:
+		cout << "Invalid option. Please try again." << endl;
+		cout << endl;
+		loggedIn();
 	}
-
 }
 
 void editCredentials()
