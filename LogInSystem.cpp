@@ -1,6 +1,6 @@
 /*
  *	Written by   : BinHong Lee
- *	Last edited  : 5/12/2016
+ *	Last edited  : 7/7/2016
  */
 
 #include <iostream>
@@ -22,7 +22,7 @@ void chgUsername();
 void chgPassword();
 void chgEmail();
 void chgPhoneNo();
-void quit();
+//void quit();
 
 //Stacks to store the users' personal data
 stack<Person> users;
@@ -124,7 +124,7 @@ void login()
 	{
 		//Print error message and exit
 		cout << "Too much failed login attempt. The program will now be terminated." << endl;
-		quit();
+		return;
 	}
 
 	try {
@@ -233,26 +233,32 @@ void registration()
 
 void loggedIn()
 {
+	//Declare space to save user's option
 	int choice;
 
+	//Print options
 	cout << "Please choose one of the following option :" << endl;
 	cout << "View credentials - 1" << endl;
 	cout << "Edit credentials - 2" << endl;
 	cout << "Exit             - 0" << endl;
+	//Get user selection
 	cin >> choice;
 
 	switch (choice)
 	{
 	case 1:
+		//Print out user credentials
 		cout << "Username : " << currentUser.getName() << "\nEmail : " << currentUser.getEmail() << "\nPhone No. : " << currentUser.getPhoneNo() << endl;
+		//Nested call back into the menu
 		loggedIn();
 		break;
 	case 2:
 		editCredentials();
+		//Nested call back into the menu
 		loggedIn();
 		break;
 	case 0:
-		quit();
+		break;
 	default:
 		cout << "Invalid option. Please try again." << endl;
 		cout << endl;
@@ -392,6 +398,7 @@ void chgPhoneNo()
 	update(currentUser);
 }
 
+/*
 void quit()
 {
 	ofstream fout("database.txt");
@@ -404,3 +411,4 @@ void quit()
 
 	exit (EXIT_SUCCESS);
 }
+*/
