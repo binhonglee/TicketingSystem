@@ -4,16 +4,13 @@
  */
 
 #include <string>
-#include "Person.h"
+#include "Person.hpp"
 using namespace std;
 
 //Empty constructor
 Person::Person()
 {
-  name = "unknown";
-  password = "";
-  email = "unknown";
-  phoneNo = "555-5555";
+
 }
 
 //Complete comstructor
@@ -70,4 +67,9 @@ string Person::getPassword()
 bool Person::checkPassword(string password)
 {
   return (this->password == password);
+}
+
+int Person::getId()
+{
+  return id;
 }

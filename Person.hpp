@@ -9,10 +9,11 @@ class Person
   string password;
   string email;
   string phoneNo;
+  int id;
 
   public :
   Person();
-  Person(string, string, string, string);
+  Person(string, string, string, string, int);
   void setName(string);
   string getName();
   void setEmail(string);
@@ -22,4 +23,5 @@ class Person
   void setPassword(string);
   string getPassword();
   bool checkPassword(string);
+  int getId();
 };
