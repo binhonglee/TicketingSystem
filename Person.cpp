@@ -14,12 +14,13 @@ Person::Person()
 }
 
 //Complete comstructor
-Person::Person(string name, string password, string email, string phoneNo)
+Person::Person(string name, string password, string email, string phoneNo, int id)
 {
   this->name = name;
   this->password = password;
   this->email = email;
   this->phoneNo = phoneNo;
+  this->id = id;
 }
 
 //Getters and setters

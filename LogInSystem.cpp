@@ -1,6 +1,6 @@
 /*
  *  Written by  : Bin Hong Lee
- *  Last edited : Dec 18, 2016
+ *  Last edited : Dec 29, 2016
  *
  */
 
@@ -8,20 +8,19 @@
 #include <fstream>
 #include <string>
 #include <vector>
-#include <algorithm>
-#include "Person.hpp"
+#include "Person.cpp"
 using namespace std;
 
 //Declaration of functions
 Person getUser(string);
 Person getUser(int);
-void login();
+bool login();
 void loggedIn(Person);
 Person registration();
 Person editCredentials(Person);
 void update(Person);
 string chgUsername();
-string chgPassword();
+string chgPassword(Person);
 string chgEmail();
 string chgPhoneNo();
 
@@ -59,16 +58,18 @@ int main()
   	cout << "Exit         - 0" << endl;
 
     cin >> userOption;
+    bool loggedOut = 0;
 
     switch (userOption)
     {
       case 1:
-        while (wrongPass < 3)
+        while (wrongPass < 3 && !loggedOut)
         {
-          login();
+          loggedOut = login();
         }
         break;
       case 2: loggedIn(registration()); break;
+      case 0: break;
       default:
         cout << "Invalid input. Please try again." << endl;
     }
@@ -78,8 +79,8 @@ int main()
 
   while (!users.empty())
   {
-    fout << users.back().getName() << " " << users.back().getPassword() << " " << users.back().getEmail() << " " << users.back().getPhoneNo() << " " << users.back().getId() << endl;
-    users.pop_back();
+    fout << users.begin()->getName() << " " << users.begin()->getPassword() << " " << users.begin()->getEmail() << " " << users.begin()->getPhoneNo() << " " << users.begin()->getId() << endl;
+    users.erase(users.begin());
   }
 
   return 0;
@@ -111,7 +112,7 @@ Person getUser(int toSearchId)
   throw invalid_argument("");
 }
 
-void login()
+bool login()
 {
   Person currentUser;
   string username;
@@ -120,8 +121,8 @@ void login()
   if (wrongPass > 2)
   {
     //Print error message and exit
-    cout << "Too much failed login attempt. The program will now be terminated." << endl;
-    return;
+    cout << "Too many failed login attempt. The program will now be terminated." << endl;
+    return false;
   }
 
   try
@@ -139,21 +140,22 @@ void login()
   }
   catch (invalid_argument ag)
   {
-    cout << "Invalid username or password. Please try again.";
+    cout << "Invalid username or password. Please try again." << endl;
 
     wrongPass++;
-    return;
+    return false;
   }
 
   if (!currentUser.checkPassword(password))
   {
-    cout << "Invalid username or password. Please try again.";
+    cout << "Invalid username or password. Please try again." << endl;
 
     wrongPass++;
-    return;
+    return false;
   }
 
   loggedIn(currentUser);
+  return true;
 }
 
 Person registration()
@@ -242,7 +244,7 @@ void loggedIn(Person currentUser)
         cout << "Phone No.: " << currentUser.getPhoneNo() << endl;
         break;
       case 2:
-        editCredentials(currentUser);
+        currentUser = editCredentials(currentUser);
         break;
       case 0:
         return;
@@ -270,10 +272,11 @@ Person editCredentials(Person currentUser)
 	{
 	case 1:
 		currentUser.setName(chgUsername());
+    update(currentUser);
     cout << "Username is updated." << endl;
 		break;
 	case 2:
-		currentUser.setPassword(chgPassword());
+		currentUser.setPassword(chgPassword(currentUser));
     cout << "Password is updated." << endl;
 		break;
 	case 3:
@@ -297,8 +300,9 @@ void update(Person newInfo)
   {
     if (users.at(position).getId() == newInfo.getId())
     {
-      Person oldInfo = users.at(position);
-      replace(users.begin(), users.end(), oldInfo, newInfo);
+      users.erase(users.begin() + position);
+      users.insert(users.begin() + position, newInfo);
+      cout << users.at(position).getName() << endl;
       return;
     }
 
