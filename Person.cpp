@@ -8,9 +8,9 @@
 using namespace std;
 
 //Empty constructor
-Person::Person()
+Person::Person(int id)
 {
-
+  this->id = id;
 }
 
 //Complete comstructor

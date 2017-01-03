@@ -12,7 +12,7 @@ class Person
   int id;
 
   public :
-  Person();
+  Person(int id);
   Person(string, string, string, string, int);
   void setName(string);
   string getName();
