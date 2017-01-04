@@ -6,9 +6,11 @@
 
 #include <iostream>
 #include <fstream>
+#include <json/json.h>
 #include <string>
 #include <vector>
 #include "Person.cpp"
+#include "Vehicle.cpp"
 using namespace std;
 
 //Declaration of functions
@@ -24,9 +26,10 @@ string chgPassword(Person);
 string chgEmail();
 string chgPhoneNo();
 
+vector<Vehicle> vehicles;
 vector<Person> users;
 static int wrongPass = 0;
-static int globalId;
+static int globalUserId;
 
 int main()
 {
@@ -46,8 +49,43 @@ int main()
   }
 
   users.pop_back();
+  globalUserId = users.back().getId() + 1;
 
-  globalId = users.back().getId() + 1;
+/*
+  ifstream otherFin("vehiclesData.txt");
+
+  while (!otherFin.eof())
+  {
+    string type;
+    int length;
+    int width;
+    string origin;
+    string destination;
+    string dateNtime;
+    int id;
+    otherFin >> type >> length >> width >> origin >> destination >> dateNtime >> id;
+
+    vector< vector<int> > seatMap;
+
+    for (int i = 0; i < length; i++)
+    {
+      vector<int> row;
+      for (int j = 0; j < width; j++)
+      {
+        int temp;
+        otherFin >> temp;
+        row.push_back(temp);
+      }
+      seatMap.push_back(row);
+    }
+
+    Vehicle newVehicle(type, length, width, origin, destination, dateNtime, id, seatMap);
+    vehicles.push_back(newVehicle);
+  }
+
+  vehicles.pop_back();
+*/
+
   int userOption = -1;
 
   while (userOption != 0)
@@ -114,7 +152,7 @@ Person getUser(int toSearchId)
 
 bool login()
 {
-  Person currentUser;
+  Person currentUser(-1);
   string username;
   string password;
   //If the user already has 3 fail attempt to login
@@ -213,10 +251,10 @@ Person registration()
 	cin >> phoneNo;
 
 	//Create and push the new 'Person' into stack
-	Person newUser(username, password, email, phoneNo, globalId);
+	Person newUser(username, password, email, phoneNo, globalUserId);
   users.push_back(newUser);
 
-  globalId++;
+  globalUserId++;
 
   //Print success message
   cout << "Account is successfully registered." << endl;

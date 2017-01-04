@@ -4,6 +4,10 @@ using namespace std;
 
 Vehicle::Vehicle(int length, int width, int id)
 {
+  type = "TBA";
+  origin = "TBA";
+  destination = "TBA";
+  dateNtime = "TBA";
   this->length = length;
   this->width = width;
   this->id = id;
@@ -20,6 +24,18 @@ Vehicle::Vehicle(string type, int length, int width, string origin, string desti
   this->dateNtime = dateNtime;
   this->id = id;
   initialize();
+}
+
+Vehicle::Vehicle(string type, int length, int width, string origin, string destination, string dateNtime, int id, vector< vector<int> > seatMap)
+{
+  this->type = type;
+  this->length = length;
+  this->width = width;
+  this->origin = origin;
+  this->destination = destination;
+  this->dateNtime = dateNtime;
+  this->id = id;
+  this->seatMap = seatMap;
 }
 
 void Vehicle::setType(string type)

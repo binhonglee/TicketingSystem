@@ -18,6 +18,7 @@ private:
 public:
   Vehicle(int length, int width, int id);
   Vehicle(string type, int length, int width, string origin, string destination, string dateNtime, int id);
+  Vehicle(string type, int length, int width, string origin, string destination, string dateNtime, int id, vector< vector<int> > seatMap);
   void setType(string type);
   void setLength(int length);
   void setWidth(int width);
