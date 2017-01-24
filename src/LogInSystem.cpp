@@ -14,12 +14,13 @@ using namespace std;
 
 LogInSystem::LogInSystem()
 {
-
+  wrongPass = 0;
 }
 
 LogInSystem::LogInSystem(string filename)
 {
-  ifstream fin(filename);
+  wrongPass = 0;
+  ifstream fin(filename.c_str());
   while (!fin.eof())
   {
     string username;
@@ -350,7 +351,7 @@ string LogInSystem::chgPhoneNo()
 
 void LogInSystem::toTxtFile(string filename)
 {
-  ofstream fout(filename);
+  ofstream fout(filename.c_str());
 
   while (!users.empty())
   {

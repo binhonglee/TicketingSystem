@@ -1,5 +1,7 @@
 #include <string>
 #include <vector>
+#include <stdlib.h>
+#include <stdio.h>
 #include "Vehicle.hpp"
 using namespace std;
 
@@ -10,10 +12,10 @@ private:
 
 public:
   VehicleManager();
-  VehicleManager(string jsonFile);
+  VehicleManager(string jsonFileName);
   bool add(Vehicle newVehicle);
   bool remove(Vehicle toRemove);
   Vehicle get(int id);
-  void toJson(string jsonFile);
+  void toJson(string jsonFileName);
   int getId();
-}
+};

@@ -2,9 +2,8 @@
 #include <vector>
 #include <iostream>
 #include <json/json.h>
-#include "VehicleManager.cpp"
-#include "LogInSystem.cpp"
-#include "Person.cpp"
+#include "VehicleManager.hpp"
+#include "LogInSystem.hpp"
 using namespace std;
 
 int main()

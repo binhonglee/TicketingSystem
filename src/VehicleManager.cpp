@@ -1,6 +1,9 @@
 #include <string>
 #include <vector>
 #include <iostream>
+#include <fstream>
+#include <stdlib.h>
+#include <stdio.h>
 #include <json/json.h>
 #include "VehicleManager.hpp"
 using namespace std;
@@ -10,16 +13,16 @@ VehicleManager::VehicleManager()
 
 }
 
-VehicleManager::VehicleManager(string jsonFile)
+VehicleManager::VehicleManager(string jsonFileName)
 {
-  ifstream jsonFile(jsonFile.c_str());
+  ifstream jsonFile(jsonFileName.c_str());
 
   Json::Reader reader;
   Json::Value vehicles;
 
-  ifstream json(jsonFile.c_str(), ifstream::binary);
+  ifstream json(jsonFileName.c_str(), ifstream::binary);
 
-  bool parseSuccess = reader.parse(json, vehicles, false);
+  bool parseSuccess = reader.parse(json,vehicles,false);
 
   if(parseSuccess)
   {
@@ -68,7 +71,7 @@ VehicleManager::VehicleManager(string jsonFile)
 
 bool VehicleManager::add(Vehicle newVehicle)
 {
-  if (newVehicle.getId() <= vehicle.back().getId())
+  if (newVehicle.getId() <= vehicles.back().getId())
   {
     return false;
   }
@@ -102,7 +105,7 @@ Vehicle VehicleManager::get(int id)
   }
 }
 
-void VehicleManager::toJson(string jsonFile)
+void VehicleManager::toJson(string jsonFileName)
 {
   Json::Value jsonLib;
 
@@ -119,21 +122,22 @@ void VehicleManager::toJson(string jsonFile)
     jsonVehicle["DateNTime"] = vehicle.getDateNTime();
     jsonVehicle["id"] = vehicle.getId();
 
-    int* seatMap = new int[vehicle.getLength()][vehicle.getWidth()];
+    Json::Value seatMap;
 
     for (int i = 0; i < vehicle.getLength(); i++)
     {
+      Json::Value row;
       for (int j = 0; j < vehicle.getWidth(); j++)
       {
-        seatMap[i][j] = vehicle.getGuest(i, y);
+        row.append(vehicle.getGuest(i, j));
       }
+      seatMap.append(row);
     }
-
     jsonVehicle["SeatMap"]  = seatMap;
   }
 
   Json::StyledStreamWriter ssw(" ");
-  ofstream jsonOutFile(jsonFile.c_str(), ofstream::binary);
+  ofstream jsonOutFile(jsonFileName.c_str(), ofstream::binary);
   ssw.write(jsonOutFile, jsonLib);
 }
 

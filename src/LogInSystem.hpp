@@ -3,7 +3,7 @@
 #include <json/json.h>
 #include <string>
 #include <vector>
-#include "Person.cpp"
+#include "Person.hpp"
 using namespace std;
 
 class LogInSystem
@@ -24,10 +24,10 @@ public:
   string chgPassword(Person);
   string chgEmail();
   string chgPhoneNo();
-  void toTxtFile();
+  void toTxtFile(string filename);
 
 private:
   vector<Person> users;
-  static int wrongPass = 0;
-  static int globalUserId;
+  int wrongPass;
+  int globalUserId;
 };

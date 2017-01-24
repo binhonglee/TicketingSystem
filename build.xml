@@ -1,0 +1,102 @@
+<?xml version="1.0"?>
+<project name="Ticketing System."
+  default="targets" basedir="."
+  xmlns:dn="antlib:org.apache.ant.dotnet"
+  xmlns="antlib:org.apache.tools.ant"
+  xmlns:cpptasks="antlib:net.sf.antcontrib.cpptasks">
+  <taskdef resource="cpptasks.tasks"/>
+  <taskdef resource="net/sf/antcontrib/antcontrib.properties"/>
+
+  <property name="src" value="src/"/>
+
+  <property name="obj.dir" value="obj"/>
+  <property name="lib" value="./lib" />
+  <property name="dist.dir" value="bin"/>
+  <property environment="env"/>
+  <property name="user" value="${env.USERNAME}"/>
+
+  <path id="compile.classpath">
+    <pathelement location="${build}"/>
+    <pathelement path="${lib}/json.jar"/>
+  </path>
+
+  <target name="targets">
+    <echo message="Targets are clean, build, execute, targets"/>
+  </target>
+
+  <target name="build">
+    <tstamp/>
+      <!-- Create the build directory structure used by compile -->
+      <mkdir dir="${dist.dir}" />
+      <mkdir dir="${obj.dir}" />
+
+      <condition property="build.host.islinux">
+        <and>
+          <os family="unix" />
+          <not>
+            <contains string="${os.name}" substring="mac"
+              casesensitive="false"/>
+          </not>
+       </and>
+     </condition>
+     <condition property="build.host.platform" value="linux">
+       <isset property="build.host.islinux" />
+     </condition>
+
+     <condition property="build.host.ismac">
+       <and>
+         <os family="unix" />
+         <contains string="${os.name}" substring="mac" casesensitive="false"/>
+       </and>
+     </condition>
+     <condition property="build.host.platform" value="mac">
+       <isset property="build.host.ismac" />
+     </condition>
+
+     <fail unless="build.host.platform"
+           message="Building on ${os.name} is not supported" />
+     <echo message="build.host.platform is: ${build.host.platform}"/>
+     <if>
+        <isset property="build.host.ismac"/>
+        <then>
+           <echo message="detected a mac host"/>
+           <property name="includepath" value="/opt/local/include:/usr/local/include"/>
+           <property name="client.lib.path" value="/opt/local/lib"/>
+           <property name="client.lib.list" value="c++,jsoncpp,stdc++"/>
+        </then>
+     <elseif>
+        <isset property="build.host.islinux"/>
+        <then>
+           <echo message="detected a linux host"/>
+           <property name="includepath" value="/usr/include/jsoncpp"/>
+           <property name="client.lib.path" value="/usr/local/lib"/>
+           <property name="client.lib.list" value="jsoncpp,stdc++"/>
+        </then>
+     </elseif>
+     <else>
+        <echo message="failed to detect a host I know how to build on"/>
+     </else>
+     </if>
+
+     <echo message="includepath is ${includepath}"/>
+     <cc outtype="executable" subsystem="console"
+       outfile="${dist.dir}/main"
+       objdir="${obj.dir}">
+       <includepath>
+         <pathelement path="${includepath}"/>
+       </includepath>
+       <libset dir="${client.lib.path}" libs="${client.lib.list}"/>
+       <fileset dir="${src}" includes="Person.cpp,LogInSystem.cpp,Vehicle.cpp,VehicleManager.cpp,main.cpp"/>
+    </cc>
+  </target>
+
+  <target name="execute" depends="build">
+    <exec executable="./bin/main"/>
+  </target>
+
+  <target name="clean">
+    <delete dir="${obj.dir}" failonerror="false"/>
+    <delete dir="${dist.dir}" failonerror="false"/>
+   </target>
+
+</project>
