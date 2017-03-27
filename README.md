@@ -3,7 +3,11 @@
 
 An overall system that records information about each vehicles and users.
 
-For detailed API documentations, please visit https://binhonglee.github.io/TicketingSystem/docs/.
+For detailed code documentations, please visit [https://binhonglee.github.io/TicketingSystem/docs/](https://binhonglee.github.io/TicketingSystem/docs/).
+
+##### Disclaimer:
+
+This program is still in progress and is currently in a **NOT WORKING** condition. This is due to the fact that ant does not support taking in inputs in command line thus a GUI implementation is needed for this program to function as intended.
 
 ## Setting up and running it
 
@@ -12,9 +16,3 @@ $ git clone https://github.com/binhonglee/TicketingSystem.git
 $ cd TicketingSystem
 $ ant execute
 ```
-
-##### Disclaimer:
-
-This program is written solely on personal time with the purpose to pick up the C++ programming language once again after a long long time since I last wrote anything with it.
-
-The original version of this program (as seen in the initial commit) was a version of my work years ago. I decided that starting from scratch might not be the best idea when it comes to a programming language that I haven't use for a long time. However, as years pass, there are different things that I've learn from other programming languages that I thought would be fun to see how that implementation works with C++ so it will eventually be very much different from what it was.
