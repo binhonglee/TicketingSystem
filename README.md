@@ -1,5 +1,5 @@
 # Ticketing System
-[![CircleCI](https://circleci.com/gh/binhonglee/TicketingSystem.svg?style=svg)](https://circleci.com/gh/binhonglee/TicketingSystem) [![Issue Count](https://codeclimate.com/github/binhonglee/TicketingSystem/badges/issue_count.svg)](https://codeclimate.com/github/binhonglee/TicketingSystem)
+[![Build Status](https://travis-ci.org/binhonglee/TicketingSystem.svg?branch=master)](https://travis-ci.org/binhonglee/TicketingSystem) [![CircleCI](https://circleci.com/gh/binhonglee/TicketingSystem.svg?style=svg)](https://circleci.com/gh/binhonglee/TicketingSystem) [![Issue Count](https://codeclimate.com/github/binhonglee/TicketingSystem/badges/issue_count.svg)](https://codeclimate.com/github/binhonglee/TicketingSystem)
 
 An overall system that records information about each vehicles and users.
 

@@ -79,9 +79,10 @@
      </if>
 
      <echo message="includepath is ${includepath}"/>
-     <cc outtype="executable" subsystem="console"
+     <cc name="g++" outtype="executable" subsystem="console"
        outfile="${dist.dir}/main"
        objdir="${obj.dir}">
+       <compilerarg location="start" value="-std=c++11"/>
        <includepath>
          <pathelement path="${includepath}"/>
        </includepath>
