@@ -1,5 +1,4 @@
-sudo apt-get install libjsonrpccpp-dev libjsonrpccpp-tools libjsoncpp-dev
-brew install libjson-rpc-cpp
+sudo apt-get install libjsoncpp-dev
 cp lib/anttasks.jar ~
 pushd ~
 jar xf anttasks.jar
