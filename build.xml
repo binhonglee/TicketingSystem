@@ -82,7 +82,7 @@
      <cc name="g++" outtype="executable" subsystem="console"
        outfile="${dist.dir}/main"
        objdir="${obj.dir}">
-       <compilerarg location="start" value="-std=c++11"/>
+       <compilerarg location="start" value="-std=c++0x"/>
        <includepath>
          <pathelement path="${includepath}"/>
        </includepath>

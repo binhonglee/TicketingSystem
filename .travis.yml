@@ -1,5 +1,4 @@
 sudo: required
-g++: 4.8
 language: cpp
 install: ./install.sh
 script: ant test
