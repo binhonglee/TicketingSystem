@@ -1,15 +1,41 @@
 #include <string>
 #include <vector>
 #include <iostream>
+#include <fstream>
 #include <json/json.h>
+#include <exception>
 #include "VehicleManager.hpp"
 #include "LogInSystem.hpp"
 using namespace std;
 
 int main()
 {
-  LogInSystem users("database.txt");
-  VehicleManager vehicles("vehiclesData.json");
+  string userFile = "database.txt";
+  string vehicleFile = "vehiclesData.json";
+
+  LogInSystem users;
+  VehicleManager vehicles;
+
+  ifstream userfile(userFile);
+  if (userfile)
+  {
+    users = LogInSystem(userFile);
+  }
+  else
+  {
+    users = LogInSystem();
+  }
+
+  ifstream vehiclefile(vehicleFile);
+  if (vehiclefile)
+  {
+    vehicles = VehicleManager(vehicleFile);
+  }
+  else
+  {
+    vehicles = VehicleManager();
+  }
+
 
   int currentUser = -1;
 
@@ -27,9 +53,14 @@ int main()
     switch (userOption)
     {
       case 1:
-        while (users.getWrongPass() < 3 && currentUser != -1)
+        if (users.getWrongPass() < 3)
         {
           currentUser = users.login();
+
+          if (currentUser != -1)
+          {
+            users.loggedIn(users.getUser(currentUser));
+          }
         }
         break;
       case 2: users.loggedIn(users.registration()); break;
@@ -39,11 +70,8 @@ int main()
     }
   }
 
-  Vehicle test = Vehicle(10, 5, 0);
+  users.toTxtFile(userFile);
+  vehicles.toJson(vehicleFile);
 
-  if (test.bookSeat(3, 4, 10))
-  {
-    cout << "Booking success" << endl;
-  }
-  test.printMap(10);
+  return 0;
 }

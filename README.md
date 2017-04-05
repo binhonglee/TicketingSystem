@@ -7,12 +7,13 @@ For detailed code documentations, please visit [https://binhonglee.github.io/Tic
 
 ##### Disclaimer:
 
-This program is still in progress and is currently in a **NOT WORKING** condition. This is due to the fact that ant does not support taking in inputs in command line thus a GUI implementation is needed for this program to function as intended.
+This program is still in progress and is currently in a **NOT WORKING** condition.
 
 ## Setting up and running it
 
 ```sh
 $ git clone https://github.com/binhonglee/TicketingSystem.git
 $ cd TicketingSystem
-$ ant execute
+$ ant build
+$ ./bin/main
 ```

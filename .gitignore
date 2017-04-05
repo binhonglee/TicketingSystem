@@ -1,6 +1,9 @@
 bin
 obj
 
+database.txt
+vehiclesData.json
+
 # Compiled Object files
 *.slo
 *.lo

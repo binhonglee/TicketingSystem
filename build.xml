@@ -21,7 +21,7 @@
   </path>
 
   <target name="targets">
-    <echo message="Targets are clean, build, execute, targets"/>
+    <echo message="Targets are clean, build, targets, test"/>
   </target>
 
   <target name="build">
@@ -88,10 +88,11 @@
        <libset dir="${client.lib.path}" libs="${client.lib.list}"/>
        <fileset dir="${src}" includes="Person.cpp,LogInSystem.cpp,Vehicle.cpp,VehicleManager.cpp,main.cpp"/>
     </cc>
+
+    <echo message="To run the program, input './bin/main' into the command line."/>
   </target>
 
-  <target name="execute" depends="build">
-    <exec executable="./bin/main"/>
+  <target name="test" depends="build, clean">
   </target>
 
   <target name="clean">
