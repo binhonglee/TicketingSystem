@@ -1,5 +1,12 @@
 # Ticketing System
 
+## build.xml
+
+| Command | Action |
+|:-------------|:---------------------------|
+| `ant build` | Build the project. |
+| `ant test` | Run test (Currently only build and clean the project) |
+
 ## Person.hpp / Person.cpp
 
 #### Constructors

@@ -3,3 +3,4 @@ language: cpp
 before_install: sudo apt-get update
 install: ./install.sh
 script: ant test
+after_script: ./uninstall.sh

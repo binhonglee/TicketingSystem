@@ -1,6 +1,8 @@
 dependencies:
   pre:
     - ./install.sh
+  post:
+    - ./uninstall.sh
 test:
   override:
     - ant test
