@@ -1,4 +1,4 @@
-sudo apt-get remove --purge libjsoncpp-dev
+brew uninstall jsoncpp
 cd ../
 echo "Deleting project files"
 rm -rf TicketingSystem

@@ -28,7 +28,18 @@ This program is still in progress and is currently in a **NOT WORKING** conditio
 ```sh
 $ git clone https://github.com/binhonglee/TicketingSystem.git
 $ cd TicketingSystem
+```
+
+#### Ubuntu/Mint
+
+```sh
 $ ./install.sh
+```
+
+#### Mac
+
+```sh
+$ ./mac_install.sh
 ```
 
 ## Building and running it
@@ -40,6 +51,14 @@ $ ./bin/main
 
 ## Uninstallation
 
+#### Ubuntu/Mint
+
 ```sh
 $ ./uninstall.sh
+```
+
+#### Mac
+
+```sh
+$ ./mac_uninstall.sh
 ```
