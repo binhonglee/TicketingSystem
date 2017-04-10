@@ -16,6 +16,13 @@ For detailed code documentations, please visit [https://binhonglee.github.io/Tic
 
 This program is still in progress and is currently in a **NOT WORKING** condition.
 
+## Requirements
+
+1. Git
+2. JDK
+3. Apache Ant
+4. (Mac) jsoncpp or brew
+
 ## Installation
 
 ```sh

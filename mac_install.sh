@@ -1,5 +1,4 @@
-sudo apt-get update
-sudo apt-get install libjsoncpp-dev
+brew install jsoncpp
 cp lib/anttasks.jar ~
 pushd ~
 jar xf anttasks.jar
