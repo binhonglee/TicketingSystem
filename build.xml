@@ -61,7 +61,7 @@
         <then>
            <echo message="detected a mac host"/>
            <property name="includepath" value="/opt/local/include:/usr/local/include"/>
-           <property name="client.lib.path" value="/opt/local/lib"/>
+           <property name="client.lib.path" value="/usr/local/lib"/>
            <property name="client.lib.list" value="c++,jsoncpp,stdc++"/>
         </then>
      <elseif>
