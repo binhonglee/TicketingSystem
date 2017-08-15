@@ -19,10 +19,12 @@ matrix:
         - MATRIX_EVAL="brew install gcc && CC=gcc-6 && CXX=g++-6"
 
 before_install:
-  - sudo apt-get update
   - eval "${MATRIX_EVAL}"
-install: ./install.sh
-script: ant test
-after_script: ./uninstall.sh
+install:
+  - ./install.sh
+script:
+  - ant test
+after_script:
+  - ./uninstall.sh
 after_success:
   - bash <(curl -s https://codecov.io/bash)

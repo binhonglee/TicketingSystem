@@ -1,5 +1,9 @@
-sudo apt-get update
-sudo apt-get install libjsoncpp-dev
+if [ $kernel == "Darwin" ]; then
+  brew install jsoncpp
+else
+  sudo apt-get update
+  sudo apt-get install libjsoncpp-dev
+
 cp lib/anttasks.jar ~
 pushd ~
 jar xf anttasks.jar
