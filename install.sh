@@ -3,6 +3,7 @@ if [ $kernel == "Darwin" ]; then
 else
   sudo apt-get update
   sudo apt-get install libjsoncpp-dev
+fi
 
 cp lib/anttasks.jar ~
 pushd ~
