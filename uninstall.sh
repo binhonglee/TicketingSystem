@@ -1,8 +1,8 @@
-if [ $kernel == "Darwin" ]; then
-  sudo apt-get remove --purge libjsoncpp-dev
-else
+if [ $(uname) == "Darwin" ]; then
   brew uninstall jsoncpp
   brew uninstall ant
+else
+  sudo apt-get remove --purge libjsoncpp-dev
 fi
 
 cd ../

@@ -1,4 +1,4 @@
-if [ $kernel == "Darwin" ]; then
+if [ $(uname) == "Darwin" ]; then
   brew install ant
   brew install jsoncpp
 else
