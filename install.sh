@@ -1,4 +1,5 @@
 if [ $kernel == "Darwin" ]; then
+  brew install ant
   brew install jsoncpp
 else
   sudo apt-get update
