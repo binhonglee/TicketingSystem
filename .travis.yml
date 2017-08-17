@@ -1,6 +1,30 @@
 sudo: required
 language: cpp
-before_install: sudo apt-get update
-install: ./install.sh
-script: ant test
-after_script: ./uninstall.sh
+matrix:
+  include:
+    # works on Precise and Trusty
+    - os: linux
+      addons:
+        apt:
+          sources:
+            - ubuntu-toolchain-r-test
+          packages:
+            - g++-6
+      env:
+        - MATRIX_EVAL="CC=gcc-6 && CXX=g++-6"
+
+    - os: osx
+      osx_image: xcode8
+      env:
+        - MATRIX_EVAL="brew cask uninstall oclint && brew install gcc@6 && CC=gcc-6 && CXX=g++-6"
+
+before_install:
+  - eval "${MATRIX_EVAL}"
+install:
+  - ./install.sh
+script:
+  - ant test
+after_script:
+  - ./uninstall.sh
+after_success:
+  - bash <(curl -s https://codecov.io/bash)
