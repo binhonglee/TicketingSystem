@@ -4,6 +4,7 @@ if [ $(uname) == "Darwin" ]; then
 else
   sudo apt-get update
   sudo apt-get install libjsoncpp-dev
+  sudo apt-get install ant
 fi
 
 cp lib/anttasks.jar ~

@@ -3,6 +3,7 @@ if [ $(uname) == "Darwin" ]; then
   brew uninstall ant
 else
   sudo apt-get remove --purge libjsoncpp-dev
+  sudo apt-get remove --purge ant
 fi
 
 cd ../
